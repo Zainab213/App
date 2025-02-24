@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 export default function Catogories({
   categories,
   activeCategory,
-  setActiveCategory,
+  handleChangeCategory,
 }) {
   return (
     <Animated.View entering={FadeInDown.duration(500).springify()}>
@@ -20,7 +20,7 @@ export default function Catogories({
           return (
             <TouchableOpacity
               key={index}
-              onPress={() => setActiveCategory(cat.strCategory)}
+              onPress={() => handleChangeCategory(cat.strCategory)}
               className="flex items-center mt-2"
               style={{marginRight: 15}}>
               <View className={'rounded-full p-[6px]  ' + activebuttonClass}>
