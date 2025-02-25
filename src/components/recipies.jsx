@@ -1,12 +1,13 @@
 import { View, Text, Pressable } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
-import categoryData from '../constants/array';
 import FastImage from 'react-native-fast-image';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import Loading from './Loading';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function Recipes({categories, meals}) {
+  const navigation = useNavigation();
   return (
     <View className="mx-4 mt-5">
       <Text className="font-semibold text-neutral-600 mb-2 text-3xl">
@@ -22,7 +23,7 @@ export default function Recipes({categories, meals}) {
             keyExtractor={(item) => item.idMeal}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, i }) => <RecipeCard item={item} index={i} />}
+            renderItem={({ item, i }) => <RecipeCard item={item} index={i} navigation={navigation}/>}
             // onEndReachedThreshold={0.1}
           />
         )
@@ -33,7 +34,7 @@ export default function Recipes({categories, meals}) {
   );
 }
 
-const RecipeCard = ({ item, index }) => {
+const RecipeCard = ({ item, index, navigation }) => {
   let isEven = index % 2 === 0;
   return (
     <Animated.View entering={FadeInDown.delay(index*100).duration(600).springify().damping(12)}>
@@ -44,6 +45,11 @@ const RecipeCard = ({ item, index }) => {
           paddingRight: isEven ? 8 : 0
         }} 
         className="flex justify-center  space-y-1 "
+        onPress={() => {
+          console.log("Navigating with item:", item);
+          navigation.navigate('RecipeDetails', {...item});
+        }}
+        
       >
         <FastImage 
           source={{ uri: item.strMealThumb }}

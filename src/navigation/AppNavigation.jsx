@@ -3,8 +3,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../screens/Home';
-import Weather from '../screens/Weather';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import RecipeDetail from '../screens/RecipesDetail';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +18,7 @@ export default function AppNavigation() {
         }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Weather" component={Weather} />
+      <Stack.Screen name='RecipeDetails' component={RecipeDetail} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
