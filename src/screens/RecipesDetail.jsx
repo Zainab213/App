@@ -10,6 +10,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
+import YoutubePlayer, { getYoutubeMeta } from "react-native-youtube-iframe";
 
 export default function RecipeDetail(props) {
   console.log('RecipeDetail received params:', props.route.params);
@@ -52,6 +53,14 @@ export default function RecipeDetail(props) {
     return indexes;
 };
 
+const getYoutubeVideoId = url=>{
+  const regex = /[?&]v=([^&]+)/;
+  const match = url.match(regex);
+  if(match && match[1]){
+    return match[1];
+  }
+  return null;
+}
 
   return (
     <ScrollView
@@ -66,8 +75,9 @@ export default function RecipeDetail(props) {
       {/* recipesImage */}
       <View className="flex-row justify-center">
         <FastImage
-          //   uri={item.strMealThumb}
+          
           source={{uri: item.strMealThumb}}
+          sharedTransitionTag={item.strMeal}
           style={{height: 430, width: 385, borderRadius: 35, marginTop: 4}}
         />
       </View>
@@ -204,6 +214,21 @@ export default function RecipeDetail(props) {
     {meal?.strInstructions}
   </Text>
 </View>
+
+{/* recipe video */}
+
+<Text className="font-bold flex-1 text-2xl text-neutral-700 mt-5 ml-6 mb-3">Recipe Video</Text>
+
+{meal?.strYoutube && (
+  <View className='mx-6'>
+  <YoutubePlayer
+    height={200}
+    play={false}
+    videoId={getYoutubeVideoId(meal.strYoutube)}
+  />
+  <Text className='justify-center text-center mt-5 text-amber-500 text-xl font-bold'>Savor every bite!</Text>
+  </View>
+)}
 
 
     </ScrollView>
