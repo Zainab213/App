@@ -1,55 +1,60 @@
-// import { View,Text } from "react-native";
-
-// export default function Login() {
-//     return(
-//     <View className="bg-black flex-1">
-//         <Text className="text-neutral-300 text-6xl">
-//             Login
-//         </Text>
-//     </View>
-//     )
-// }
-
-
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
-// import LinearGradient from "react-native-linear-gradient";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import auth from '@react-native-firebase/auth'; // Import Firebase authentication
 
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({ navigation }) => {
+  const [username, setUsername] = useState(""); // This is the email
+  const [password, setPassword] = useState(""); // This is the password
+
+  // Function to handle login
+  const handleLogin = async () => {
+    try {
+      // Use Firebase authentication to sign in the user
+      await auth().signInWithEmailAndPassword(username, password);
+      // Navigate to the Home screen on successful login
+      navigation.navigate('Home'); // You can change 'Home' to whatever your home screen is named
+    } catch (error) {
+      // Handle error and show alerts
+      if (error.code === 'auth/user-not-found') {
+        Alert.alert('Error', 'No user found with this email');
+      } else if (error.code === 'auth/wrong-password') {
+        Alert.alert('Error', 'Incorrect password');
+      } else {
+        Alert.alert('Error', error.message);
+      }
+    }
+  };
 
   return (
     <View className="flex-1 bg-white">
-     
-      {/* <LinearGradient
-        colors={["#ff7e5f", "#ffbb87"]}
-        className="absolute top-0 left-0 right-0 h-40 rounded-b-[80px]"
-      /> */}
-
 
       <View className="flex-1 justify-center px-8">
-        <Text className="text-5xl font-bold text-center text-amber-500">Hello</Text>
+        <Text className="text-5xl font-bold text-center text-amber-500">
+          <Image
+            source={{
+              uri: 'https://i.pinimg.com/originals/39/96/57/39965743eb30634afdc5906133e19740.png',
+            }}
+            className="h-52 w-48"
+          />
+        </Text>
         <Text className="text-neutral-500 text-center text-lg mb-6">
-          Sign in to your account
+          Sign in to your Chef Food account.
         </Text>
 
-     
+        {/* Username (Email) Input Field */}
         <View className="flex-row items-center bg-neutral-100 p-4 rounded-xl mb-4">
-          
           <TextInput
             className="ml-3 flex-1"
-            placeholder="Username"
+            placeholder="Email Address"
             value={username}
             onChangeText={setUsername}
           />
-          <Ionicons name="person" size={20} color="gray" />
+          <Ionicons name="mail" size={20} color="gray" />
         </View>
 
-        
+        {/* Password Input Field */}
         <View className="flex-row items-center bg-neutral-100 p-4 rounded-xl mb-6">
-          
           <TextInput
             className="ml-3 flex-1"
             placeholder="Password"
@@ -60,25 +65,24 @@ const Login = () => {
           <Ionicons name="eye-off" size={20} color="gray" />
         </View>
 
-
-        
-        <TouchableOpacity className="bg-amber-500 p-4 rounded-xl flex-row items-center justify-center">
+        {/* Sign In Button */}
+        <TouchableOpacity
+          onPress={handleLogin} // Call handleLogin on press
+          className="bg-amber-500 p-4 rounded-xl flex-row items-center justify-center shadow-md"
+        >
           <Text className="text-white font-bold text-lg">Sign in</Text>
           <Ionicons name="log-in" size={20} color="white" className="ml-2" />
         </TouchableOpacity>
 
-        
-        <Text className="text-center text-neutral-500 mt-6">
+        {/* Navigation to Create Account Screen */}
+        <Text className="text-center text-neutral-500 mt-6 mb-6">
           Don't have an account?{" "}
-          <Text className="text-amber-500 font-bold">Create</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('CreateNewAccount')}>
+            <Text className="text-amber-500 font-bold">Create</Text>
+          </TouchableOpacity>
         </Text>
       </View>
 
-      
-      {/* <LinearGradient
-        colors={["#ff7e5f", "#ffbb87"]}
-        className="absolute bottom-0 left-0 right-0 h-40 rounded-t-[80px]"
-      /> */}
     </View>
   );
 };
