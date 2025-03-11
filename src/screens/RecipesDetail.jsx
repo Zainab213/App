@@ -10,7 +10,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
-import YoutubePlayer from "react-native-youtube-iframe";
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 export default function RecipeDetail(props) {
   console.log('RecipeDetail received params:', props.route.params);
@@ -40,27 +40,27 @@ export default function RecipeDetail(props) {
     }
   };
 
-  const ingredientsIndexes = (meal) => {
+  const ingredientsIndexes = meal => {
     if (!meal) return [];
     let indexes = [];
-    
-    for (let i = 1; i <= 20; i++) {
-        if (meal['strIngredient' + i]) {
-            indexes.push(i);
-        }
-    }
-    
-    return indexes;
-};
 
-const getYoutubeVideoId = url=>{
-  const regex = /[?&]v=([^&]+)/;
-  const match = url.match(regex);
-  if(match && match[1]){
-    return match[1];
-  }
-  return null;
-}
+    for (let i = 1; i <= 20; i++) {
+      if (meal['strIngredient' + i]) {
+        indexes.push(i);
+      }
+    }
+
+    return indexes;
+  };
+
+  const getYoutubeVideoId = url => {
+    const regex = /[?&]v=([^&]+)/;
+    const match = url.match(regex);
+    if (match && match[1]) {
+      return match[1];
+    }
+    return null;
+  };
 
   return (
     <ScrollView
@@ -75,7 +75,6 @@ const getYoutubeVideoId = url=>{
       {/* recipesImage */}
       <View className="flex-row justify-center">
         <FastImage
-          
           source={{uri: item.strMealThumb}}
           sharedTransitionTag={item.strMeal}
           style={{height: 430, width: 385, borderRadius: 35, marginTop: 4}}
@@ -174,86 +173,71 @@ const getYoutubeVideoId = url=>{
         </View>
       </View>
 
-   {/* ingredients */}
-<View className="space-y-4">
-  <Text className="font-bold flex-1 text-2xl ml-5 mt-4 text-neutral-700 mb-2">
-    Ingredients
-  </Text>
+      {/* ingredients */}
+      <View className="space-y-4">
+        <Text className="font-bold flex-1 text-2xl ml-5 mt-4 text-neutral-700 mb-2">
+          Ingredients
+        </Text>
+        <View className="ml-9 space-y-2">
+          {ingredientsIndexes(meal).map(i => {
+            return (
+              <View key={i} className="flex-row items-center space-x-3">
+                {/* Dot */}
+                <View className="bg-amber-300 h-3 w-3 rounded-full " />
 
+                {/* Ingrdient text */}
+                <Text className="font-extrabold text-neutral-700 ml-4 mr-2 text-lg">
+                  {meal['strMeasure' + i]}
+                </Text>
+                <Text className="font-medium text-neutral-600 text-base">
+                  {meal['strIngredient' + i]}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
+      </View>
+      {/* instructions */}
+      <View className="space-y-4">
+        <Text className="font-bold flex-1 text-2xl text-neutral-700 ml-6 mt-6 mb-2">
+          Instructions
+        </Text>
 
+        <Text className="text-neutral-700 text-lg mx-6">
+          {meal?.strInstructions}
+        </Text>
+      </View>
 
+      {/* recipe video */}
 
+      <Text className="font-bold flex-1 text-2xl text-neutral-700 mt-5 ml-6 mb-3">
+        Recipe Video
+      </Text>
 
-  <View className="ml-9 space-y-2">
-    {ingredientsIndexes(meal).map((i) => {
-      return (
-        <View key={i} className="flex-row items-center space-x-3">
-          {/* Dot */}
-          <View className="bg-amber-300 h-3 w-3 rounded-full " />
-
-          {/* Ingrdient text */}
-          <Text className="font-extrabold text-neutral-700 ml-4 mr-2 text-lg">
-            {meal["strMeasure" + i]} 
-          </Text>
-          <Text className="font-medium text-neutral-600 text-base">
-            {meal["strIngredient" + i]}
+      {meal?.strYoutube && (
+        <View className="mx-6">
+          <YoutubePlayer
+            height={200}
+            play={false}
+            videoId={getYoutubeVideoId(meal.strYoutube)}
+          />
+          <Text className="justify-center text-center mt-5 text-amber-500 text-xl font-bold">
+            Savor every bite!
           </Text>
         </View>
-      );
-    })}
-  </View>
-</View>
-
-
-
-
-
-
-
-
-{/* instructions */}
-<View className="space-y-4">
-  <Text 
-    className="font-bold flex-1 text-2xl text-neutral-700 ml-6 mt-6 mb-2"
-  >
-    Instructions
-  </Text>
-
-  <Text 
-    className="text-neutral-700 text-lg mx-6"
-  >
-    {meal?.strInstructions}
-  </Text>
-</View>
-
-{/* recipe video */}
-
-<Text className="font-bold flex-1 text-2xl text-neutral-700 mt-5 ml-6 mb-3">Recipe Video</Text>
-
-{meal?.strYoutube && (
-  <View className='mx-6'>
-  <YoutubePlayer
-    height={200}
-    play={false}
-    videoId={getYoutubeVideoId(meal.strYoutube)}
-  />
-  <Text className='justify-center text-center mt-5 text-amber-500 text-xl font-bold'>Savor every bite!</Text>
-  </View>
-)}
-<TouchableOpacity
-  onPress={() =>
-    navigation.navigate('Buy', {
-      ingredients: ingredientsIndexes(meal).map(
-        (i) => `${meal["strMeasure" + i]} ${meal["strIngredient" + i]}`
-      ),
-    })
-  }
->
-  <Text className='text-amber-500 underline font-semibold text-center text-xl mt-4'>
-    You can also buy this recipe ingredients
-  </Text>
-</TouchableOpacity>
-
+      )}
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Buy', {
+            ingredients: ingredientsIndexes(meal).map(
+              i => `${meal['strMeasure' + i]} ${meal['strIngredient' + i]}`,
+            ),
+          })
+        }>
+        <Text className="text-amber-500 underline font-semibold text-center text-xl mt-4">
+          You can also buy this recipe ingredients
+        </Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }

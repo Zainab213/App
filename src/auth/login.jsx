@@ -13,7 +13,7 @@ const Login = ({ navigation }) => {
       
       await auth().signInWithEmailAndPassword(username, password);
       
-      navigation.navigate('Home'); 
+      navigation.navigate("Welcome" ); 
     } catch (error) {
       
       if (error.code === 'auth/user-not-found') {
@@ -70,7 +70,7 @@ const Login = ({ navigation }) => {
           onPress={handleLogin} 
           className="bg-amber-500 p-4 rounded-xl flex-row items-center justify-center shadow-md"
         >
-          <Text className="text-white font-bold text-lg">Sign in</Text>
+          <Text className="text-white font-bold text-xl">Sign in</Text>
           <Ionicons name="log-in" size={20} color="white" className="ml-2" />
         </TouchableOpacity>
 
