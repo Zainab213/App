@@ -1,7 +1,7 @@
 
 
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, Alert, ScrollView, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -60,28 +60,19 @@ export default function CreateNewAccount({ navigation }) {
 
   return (
     <View className="bg-white flex-1">
-      
+      <StatusBar barStyle='dark-content' backgroundColor='white' />
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20, paddingBottom: 50 }}>
 
         
         <View className="items-center py-8 bg-white mt-5">
-          {!profileImage ? (
+        
             <Image
               source={{
                 uri: 'https://i.pinimg.com/originals/39/96/57/39965743eb30634afdc5906133e19740.png',
               }}
-              style={{ width: 192, height: 180 }}
+              style={{ width: 192, height: 140 }}
             />
-          ) : (
-            <View className="items-center">
-              <Image
-                source={{ uri: profileImage.uri }}
-                style={{ width: 150, height: 150, borderRadius: 75 }}
-              />
-              <Text className="text-lg font-bold mt-2 text-amber-500">Chef Food</Text>
-            </View>
-          )}
-          <Text className="text-center text-neutral-600 mt-2">
+          <Text className="text-center text-neutral-600 mt-3">
             Join Chef Food and create an account!
           </Text>
         </View>
