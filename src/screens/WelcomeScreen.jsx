@@ -11,13 +11,13 @@ export default function WelcomeScreen() {
   useEffect(() => {
     ring1padding.value = 0;
     ring2padding.value = 0;
-    setTimeout(() => ring1padding.value = withSpring(ring1padding.value+ 45), 100);
+    setTimeout(() => ring1padding.value = withSpring(ring1padding.value+ 49), 100);
     setTimeout(() => ring2padding.value = withSpring(ring2padding.value+ 10), 300)
     setTimeout(() => navigation.navigate('login'), 2500)
   }, [])
   return (
     <View className="flex-1 justify-center items-center space-y-10 bg-amber-500">
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" backgroundColor="#f59e0b" />
 
       <Animated.View className="bg-white/20 rounded-full " style={{padding: ring1padding}} >
         <Animated.View className="bg-white/20 rounded-full" style={{padding: ring2padding}}>

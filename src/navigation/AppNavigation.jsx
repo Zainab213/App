@@ -7,6 +7,7 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import RecipeDetail from '../screens/RecipesDetail';
 import Login from '../auth/login';
 import CreateNewAccount from '../auth/Create';
+import Order from '../components/Buy';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function AppNavigation() {
       <Stack.Screen name='RecipeDetails' component={RecipeDetail} /> 
       <Stack.Screen name='login' component={Login} />
       <Stack.Screen name='CreateNewAccount' component={CreateNewAccount}/>
+      <Stack.Screen name='Buy' component={Order} />
       </Stack.Navigator>
     </NavigationContainer>
   );

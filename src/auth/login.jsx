@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
 
   return (
     <View className="flex-1 bg-white">
-
+ 
       <View className="flex-1 justify-center px-8">
         <Text className="text-5xl font-bold text-center text-amber-500">
           <Image

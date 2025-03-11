@@ -10,7 +10,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
-import YoutubePlayer, { getYoutubeMeta } from "react-native-youtube-iframe";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 export default function RecipeDetail(props) {
   console.log('RecipeDetail received params:', props.route.params);
@@ -180,14 +180,18 @@ const getYoutubeVideoId = url=>{
     Ingredients
   </Text>
 
+
+
+
+
   <View className="ml-9 space-y-2">
     {ingredientsIndexes(meal).map((i) => {
       return (
         <View key={i} className="flex-row items-center space-x-3">
-          {/* Yellow Dot */}
+          {/* Dot */}
           <View className="bg-amber-300 h-3 w-3 rounded-full " />
 
-          {/* Ingredient Texts */}
+          {/* Ingrdient text */}
           <Text className="font-extrabold text-neutral-700 ml-4 mr-2 text-lg">
             {meal["strMeasure" + i]} 
           </Text>
@@ -199,6 +203,13 @@ const getYoutubeVideoId = url=>{
     })}
   </View>
 </View>
+
+
+
+
+
+
+
 
 {/* instructions */}
 <View className="space-y-4">
@@ -229,7 +240,19 @@ const getYoutubeVideoId = url=>{
   <Text className='justify-center text-center mt-5 text-amber-500 text-xl font-bold'>Savor every bite!</Text>
   </View>
 )}
-
+<TouchableOpacity
+  onPress={() =>
+    navigation.navigate('Buy', {
+      ingredients: ingredientsIndexes(meal).map(
+        (i) => `${meal["strMeasure" + i]} ${meal["strIngredient" + i]}`
+      ),
+    })
+  }
+>
+  <Text className='text-amber-500 underline font-semibold text-center text-xl mt-4'>
+    You can also buy this recipe ingredients
+  </Text>
+</TouchableOpacity>
 
     </ScrollView>
   );
