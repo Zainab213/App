@@ -18,6 +18,7 @@ export default function CreateNewAccount({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [profileImage, setProfileImage] = useState(null);
+  const [isEye, setEye] = useState()
 
   const handleSignUp = async () => {
     try {
@@ -27,7 +28,6 @@ export default function CreateNewAccount({navigation}) {
       );
       const user = userCredential.user;
 
-      // Agar profile image hai to Firebase me update karo
       await user.updateProfile({
         displayName: fullName,
         photoURL: profileImage || null,
@@ -116,12 +116,14 @@ export default function CreateNewAccount({navigation}) {
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={!isEye}
             className="ml-3 flex-1"
           />
-          <Ionicons name="eye-off" color="gray" size={20} />
+           <TouchableOpacity onPress={() => setEye(!isEye)}>
+          <Ionicons name={isEye ? 'eye' : 'eye-off'} color="gray" size={20} />
+          </TouchableOpacity>
         </View>
-
+                       
         <TouchableOpacity
           onPress={pickImage}
           className="flex-row items-center justify-center p-4 rounded-xl mb-4 bg-neutral-100 h-48 w-52">

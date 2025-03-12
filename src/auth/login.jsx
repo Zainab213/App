@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState(""); 
+  const [isEye, setEye] = useState();
 
   
   const handleLogin = async () => {
@@ -41,8 +42,6 @@ const Login = ({ navigation }) => {
         <Text className="text-neutral-500 text-center text-lg mb-6">
           Sign in to your Chef Food account.
         </Text>
-
-        
         <View className="flex-row items-center bg-neutral-100 p-4 rounded-xl mb-4">
           <TextInput
             className="ml-3 flex-1"
@@ -52,17 +51,17 @@ const Login = ({ navigation }) => {
           />
           <Ionicons name="mail" size={20} color="gray" />
         </View>
-
-        
         <View className="flex-row items-center bg-neutral-100 p-4 rounded-xl mb-6">
           <TextInput
             className="ml-3 flex-1"
             placeholder="Password"
-            secureTextEntry
+            secureTextEntry={!isEye}
             value={password}
             onChangeText={setPassword}
           />
-          <Ionicons name="eye-off" size={20} color="gray" />
+          <TouchableOpacity onPress={() => setEye(!isEye)}>
+          <Ionicons name={isEye ? 'eye' : 'eye-off'} size={20} color="gray" />
+          </TouchableOpacity>
         </View>
 
        
