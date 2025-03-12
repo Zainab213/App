@@ -62,9 +62,7 @@ const Login = ({ navigation }) => {
           <TouchableOpacity onPress={() => setEye(!isEye)}>
           <Ionicons name={isEye ? 'eye' : 'eye-off'} size={20} color="gray" />
           </TouchableOpacity>
-        </View>
-
-       
+        </View>       
         <TouchableOpacity
           onPress={handleLogin} 
           className="bg-amber-500 p-4 rounded-xl flex-row items-center justify-center shadow-md"

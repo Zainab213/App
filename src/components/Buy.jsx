@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import firestore from '@react-native-firebase/firestore'
 
 export default function Order({ route }) {
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [modalVisible, setModalVisible] = useState(false); 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
+    const [number, setnumber] = useState('');
 
     const navigation = useNavigation();
     const { ingredients } = route.params || { ingredients: [] };
@@ -29,18 +30,32 @@ export default function Order({ route }) {
         }
     };
 
-    const handleOrderSubmit = () => {
-        if (!name || !address || !phone) {
+    const handleOrderSubmit = async () => {
+        if (!name || !address || !number) {
             Alert.alert("Error", "Please fill in all fields!");
             return;
         }
+        try {
+            await firestore().collection('orders').add(
+                {
+                    name,
+                    number,
+                    address,
+                    createdAt: firestore.FieldValue.serverTimestamp() 
+                }
+            )
+            Alert.alert("Success", "Your order has been placed!");
+            setModalVisible(false);
+            setName('');
+            setAddress('');
+            setnumber('');
+            setSelectedIngredients([]);
+        }catch (error) {
+            Alert.alert("Error", 'Failed to place order')
+            console.log('firebase errror:', error)
+        }
 
-        Alert.alert("Success", "Your order has been placed!");
-        setModalVisible(false);
-        setName('');
-        setAddress('');
-        setPhone('');
-        setSelectedIngredients([]);
+ 
     };
 
     return (
@@ -118,8 +133,8 @@ export default function Order({ route }) {
                             placeholder="Phone Number"
                             keyboardType="phone-pad"
                             className="border border-gray-300 p-2 rounded mb-3"
-                            value={phone}
-                            onChangeText={setPhone}
+                            value={number}
+                            onChangeText={setnumber}
                         />
 
                         <View className="flex-row justify-around mt-4">
