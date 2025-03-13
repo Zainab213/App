@@ -9,19 +9,20 @@ import {
 import {SafeAreaView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Catogories from '../components/Categories';
-import {useEffect, useState} from 'react';
+import { useEffect, useState} from 'react';
 import axios from 'axios';
 import Recipes from '../components/recipies';
 import auth from '@react-native-firebase/auth';
+import { meal, category } from '../types';
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState('Beef');
-  const [categories, setCategories] = useState([]);
-  const [meals, setMeals] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [userImage, setUserImage] = useState(null);
-  const [filteredMeals, setFilteredMeals] = useState([]);
-  const [userName, setUserName] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string>('Beef');
+  const [categories, setCategories] = useState<category[]>([]);
+  const [meals, setMeals] = useState<meal[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [userImage, setUserImage] = useState<string | undefined>(undefined);
+  const [filteredMeals, setFilteredMeals] = useState<meal[]>([]);
+  const [userName, setUserName] = useState<string>('');
   
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export default function Home() {
     }
   };
 
-  const handleChangeCategory = category => {
+  const handleChangeCategory = (category: string) => {
     setSearchQuery('');
     getRecipes(category);
     setActiveCategory(category);
@@ -67,7 +68,7 @@ export default function Home() {
         setCategories(response.data.categories);
       }
     } catch (err) {
-      console.log('error:', err.message);
+      console.log('error:', (err as Error).message);
     }
   };
 
@@ -81,7 +82,7 @@ export default function Home() {
         setFilteredMeals(response.data.meals);
       }
     } catch (err) {
-      console.log('error:', err.message);
+      console.log('error:',(err as Error).message);
     }
   };
 
@@ -97,7 +98,7 @@ export default function Home() {
           <Ionicons name="notifications-outline" size={39} />
         </View>
 
-        {/* Greeting Message */}
+        {/* Greeting Message */}5
         <View className="mx-4 gap-y-2 mb-7 mt-3">
           <Text className="text-2xl text-neutral-600">Hello, {userName}!</Text>
           <Text className="font-semibold text-neutral-600 text-4xl">

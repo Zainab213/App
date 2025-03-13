@@ -1,12 +1,13 @@
 import {View, ScrollView, TouchableOpacity, Text} from 'react-native';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import FastImage from 'react-native-fast-image';
+import { CategoriesProps } from '../types';
 
 export default function Catogories({
   categories,
   activeCategory,
   handleChangeCategory,
-}) {
+}: CategoriesProps) {
   return (
     <Animated.View entering={FadeInDown.duration(500).springify()}>
       <ScrollView

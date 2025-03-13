@@ -9,7 +9,17 @@ import Login from '../auth/login';
 import CreateNewAccount from '../auth/Create';
 import Order from '../components/Buy';
 
-const Stack = createNativeStackNavigator();
+
+type screens = {
+  Home: undefined;
+  Welcome: undefined;
+  RecipeDetails: undefined;
+  login: undefined,
+  CreateNewAccount: undefined,
+  Buy: undefined,
+}
+
+const Stack = createNativeStackNavigator<screens>();
 
 export default function AppNavigation() {
   return (

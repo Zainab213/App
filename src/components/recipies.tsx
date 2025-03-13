@@ -4,9 +4,19 @@ import FastImage from 'react-native-fast-image';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import Loading from './Loading';
 import { useNavigation } from '@react-navigation/native';
+import { category, meal } from '../types';
+import { Mealprops } from '../types';
+
+type RecipesProps = {
+  categories: category[];
+  meals: meal[];
+};
 
 
-export default function Recipes({categories, meals}) {
+export default function Recipes({categories, meals}: RecipesProps) {
+    console.log("Categories:", categories);
+    console.log("Meals:", meals);
+    
   const navigation = useNavigation();
   return (
     <View className="mx-4 mt-5">
@@ -18,23 +28,28 @@ export default function Recipes({categories, meals}) {
         categories.length==0 || meals.length==0 ? (
           <Loading size='large' className='mt-32' />
         ) : (
-            <MasonryList
-            data={meals}
-            keyExtractor={(item) => item.idMeal}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item, i }) => <RecipeCard item={item} index={i} navigation={navigation}/>}
-            // onEndReachedThreshold={0.1}
-          />
-        )
+          <MasonryList
+          data={meals as meal[]} 
+          keyExtractor={(item) => (item as meal).idMeal}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, i }) => (
+            <RecipeCard item={item as unknown as meal} index={i} navigation={navigation} />
+          )}
+        />
+          
+        )   
     }
-
       </View>
     </View>
   );
 }
 
-const RecipeCard = ({ item, index, navigation }) => {
+
+const RecipeCard = ({ item, index, navigation }: Mealprops) => {
+  console.log("Item Type:", typeof item);
+  console.log("Item Data:", item);
+  console.log("Navigation:", navigation);
   let isEven = index % 2 === 0;
   return (
     <Animated.View entering={FadeInDown.delay(index*100).duration(600).springify().damping(12)}>
