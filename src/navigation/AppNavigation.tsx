@@ -4,22 +4,24 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../screens/Home';
 import WelcomeScreen from '../screens/WelcomeScreen';
-import RecipeDetail from '../screens/RecipesDetail';
 import Login from '../auth/login';
 import CreateNewAccount from '../auth/Create';
 import Order from '../components/Buy';
+import RecipeDetail from '../screens/RecipesDetail';
 
 
-type screens = {
+export type RootStackParamList = {
+ 
   Home: undefined;
   Welcome: undefined;
-  RecipeDetails: undefined;
   login: undefined,
   CreateNewAccount: undefined,
-  Buy: undefined,
-}
+  Buy: {ingredients: string[]};
+  RecipeDetails: { idMeal: string; strMeal: string; strMealThumb: string };
+};
 
-const Stack = createNativeStackNavigator<screens>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
 
 export default function AppNavigation() {
   return (

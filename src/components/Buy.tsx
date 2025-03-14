@@ -11,18 +11,22 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firestore from '@react-native-firebase/firestore'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Screenprop } from '../types';
 
-export default function Order({ route }) {
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false); 
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [number, setnumber] = useState('');
+type orderProps = NativeStackScreenProps<Screenprop, 'Buy'>;
+
+export default function Order({ route }: orderProps) {
+    const [selectedIngredients, setSelectedIngredients] = useState<number[]>([]);
+    const [modalVisible, setModalVisible] = useState<boolean>(false); 
+    const [name, setName] = useState<string>('');
+    const [address, setAddress] = useState<string>('');
+    const [number, setnumber] = useState<string>('');
 
     const navigation = useNavigation();
     const { ingredients } = route.params || { ingredients: [] };
 
-    const toggleSelection = (index) => {
+    const toggleSelection = (index: number) => {
         if (selectedIngredients.includes(index)) {
             setSelectedIngredients(selectedIngredients.filter(i => i !== index));
         } else {

@@ -20,7 +20,8 @@ export default function Home() {
   const [categories, setCategories] = useState<category[]>([]);
   const [meals, setMeals] = useState<meal[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [userImage, setUserImage] = useState<string | undefined>(undefined);
+  const [userImage, setUserImage] = useState<string | undefined >(undefined)
+  
   const [filteredMeals, setFilteredMeals] = useState<meal[]>([]);
   const [userName, setUserName] = useState<string>('');
   
@@ -44,11 +45,13 @@ export default function Home() {
 
   const fetchUserData = () => {
     const user = auth().currentUser;
+    console.log("User Data:", user); 
     if (user) {
       setUserName(user.displayName || 'Guest');
+      
       setUserImage(
-        user.photoURL ||
-          'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg',
+        
+        user.photoURL ?? 'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg'
       );
     }
   };
@@ -94,14 +97,14 @@ export default function Home() {
         contentContainerStyle={{paddingBottom: 30}}
         className="gap-y-6 pt-2">
         <View className="flex-row justify-between items-center mx-3 mb-2">
-          <Image source={{uri: userImage}} className="h-16 w-16 rounded-full" />
+          <Image  source={{ uri: userImage ?? 'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg' }}/>
           <Ionicons name="notifications-outline" size={39} />
         </View>
 
-        {/* Greeting Message */}5
+        {/* Greeting Message */}
         <View className="mx-4 gap-y-2 mb-7 mt-3">
           <Text className="text-2xl text-neutral-600">Hello, {userName}!</Text>
-          <Text className="font-semibold text-neutral-600 text-4xl">
+          <Text className="font-semibolrd text-neutral-600 text-4xl">
             Make your own food
           </Text>
           <Text className="font-semibold text-neutral-600 text-4xl">

@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth'; 
+import { Screenprop } from "../types";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const Login = ({ navigation }) => {
+type prop = NativeStackScreenProps<Screenprop, 'login'>
+
+const Login = ({ navigation }: prop) => {
   const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState(""); 
-  const [isEye, setEye] = useState();
+  const [isEye, setEye] = useState<boolean>(false);
 
   
   const handleLogin = async () => {
@@ -17,12 +21,12 @@ const Login = ({ navigation }) => {
       navigation.navigate("Welcome" ); 
     } catch (error) {
       
-      if (error.code === 'auth/user-not-found') {
+      if ((error as any).code === 'auth/user-not-found') {
         Alert.alert('Error', 'No user found with this email');
-      } else if (error.code === 'auth/wrong-password') {
+      } else if ((error as any).code === 'auth/wrong-password') {
         Alert.alert('Error', 'Incorrect password');
       } else {
-        Alert.alert('Error', error.message);
+        Alert.alert('Error', (error as Error).message);
       }
     }
   };

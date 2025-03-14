@@ -11,21 +11,28 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import { meal } from '../types';
+import { Screenprop } from '../types';
+import { RouteProp } from '@react-navigation/native';
 
-export default function RecipeDetail(props) {
-  console.log('RecipeDetail received params:', props.route.params);
+type RecipeDetailProps = {
+  route: RouteProp<Screenprop, 'RecipeDetails'>;
+};
 
-  let item = props.route.params;
+export default function RecipeDetail({ route }: RecipeDetailProps) {
+
+  let item = route.params;
+
   const [isFavourite, setFavourite] = useState(false);
-  const navigation = useNavigation();
-  const [meal, setMeal] = useState(null);
+  const navigation = useNavigation<any>();
+  const [meal, setMeal] = useState<meal | null>(null);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     getMealDta(item.idMeal);
   }, []);
 
-  const getMealDta = async id => {
+  const getMealDta = async (id: string) => {
     try {
       const getresponse = await axios.get(
         `https://themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
@@ -36,13 +43,13 @@ export default function RecipeDetail(props) {
         setLoading(false);
       }
     } catch (err) {
-      console.log('error:', err.message);
+      console.log('error:',  (err as Error).message );
     }
   };
 
-  const ingredientsIndexes = meal => {
+  const ingredientsIndexes = (meal: meal | null):number[] => {
     if (!meal) return [];
-    let indexes = [];
+    let indexes: number[] = [];
 
     for (let i = 1; i <= 20; i++) {
       if (meal['strIngredient' + i]) {
@@ -53,14 +60,13 @@ export default function RecipeDetail(props) {
     return indexes;
   };
 
-  const getYoutubeVideoId = url => {
-    const regex = /[?&]v=([^&]+)/;
-    const match = url.match(regex);
-    if (match && match[1]) {
-      return match[1];
-    }
-    return null;
+  
+
+  const getYoutubeVideoId = (url: string | null): string => {
+    if (!url) return ""; 
+    return url.split("v=")[1]|| "";
   };
+  
 
   return (
     <ScrollView
@@ -76,7 +82,6 @@ export default function RecipeDetail(props) {
       <View className="flex-row justify-center">
         <FastImage
           source={{uri: item.strMealThumb}}
-          sharedTransitionTag={item.strMeal}
           style={{height: 430, width: 385, borderRadius: 35, marginTop: 4}}
         />
       </View>
@@ -116,7 +121,6 @@ export default function RecipeDetail(props) {
             <Ionicons
               name="time-outline"
               size={32}
-              strokeWidth={2.5}
               className="font-bold"
               color="#525252"
             />
@@ -131,7 +135,6 @@ export default function RecipeDetail(props) {
             <Ionicons
               name="people"
               size={32}
-              strokeWidth={2.5}
               className="font-bold"
               color="#525252"
             />
@@ -146,7 +149,6 @@ export default function RecipeDetail(props) {
             <Ionicons
               name="flame"
               size={32}
-              strokeWidth={2.5}
               className="font-bold"
               color="#525252"
             />
@@ -161,7 +163,6 @@ export default function RecipeDetail(props) {
             <Ionicons
               name="albums"
               size={32}
-              strokeWidth={2.5}
               className="font-bold"
               color="#525252"
             />
@@ -187,10 +188,10 @@ export default function RecipeDetail(props) {
 
                 {/* Ingrdient text */}
                 <Text className="font-extrabold text-neutral-700 ml-4 mr-2 text-lg">
-                  {meal['strMeasure' + i]}
+                  {meal?.['strMeasure' + i]}
                 </Text>
                 <Text className="font-medium text-neutral-600 text-base">
-                  {meal['strIngredient' + i]}
+                  {meal?.['strIngredient' + i]}
                 </Text>
               </View>
             );
@@ -215,12 +216,14 @@ export default function RecipeDetail(props) {
       </Text>
 
       {meal?.strYoutube && (
+       
         <View className="mx-6">
           <YoutubePlayer
             height={200}
             play={false}
             videoId={getYoutubeVideoId(meal.strYoutube)}
           />
+
           <Text className="justify-center text-center mt-5 text-amber-500 text-xl font-bold">
             Savor every bite!
           </Text>
@@ -230,7 +233,8 @@ export default function RecipeDetail(props) {
         onPress={() =>
           navigation.navigate('Buy', {
             ingredients: ingredientsIndexes(meal).map(
-              i => `${meal['strMeasure' + i]} ${meal['strIngredient' + i]}`,
+              i => `${meal?.['strMeasure' + i]} 
+               ${meal?.['strIngredient' + i]}`,
             ),
           })
         }>

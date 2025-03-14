@@ -2,11 +2,13 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import {View, Text, Image, StatusBar} from 'react-native';
 import Animated, {useSharedValue, withSpring} from 'react-native-reanimated';
+import { NavigationProp } from '@react-navigation/native';
+import { Screenprop } from '../types';
 
 export default function WelcomeScreen() {
   const ring1padding = useSharedValue(0)
   const ring2padding = useSharedValue(0)
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<Screenprop>>();
 
   useEffect(() => {
     ring1padding.value = 0;

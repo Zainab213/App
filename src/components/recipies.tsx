@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { category, meal } from '../types';
 import { Mealprops } from '../types';
 
+
 type RecipesProps = {
   categories: category[];
   meals: meal[];
@@ -74,7 +75,7 @@ const RecipeCard = ({ item, index, navigation }: Mealprops) => {
             borderRadius: 30
           }}
           className="bg-black/5"
-          sharedTransitionTag={item.strMeal}
+          // sharedTransitionTag={item.strMeal}
         />
 
         <Text className=" text-neutral-600 ml-2 mb-3 text-base font-semibold">

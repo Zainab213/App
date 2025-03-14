@@ -1,7 +1,13 @@
 export type meal = {
     strMeal: string,
     strMealThumb: string,
-    idMeal: string
+    idMeal: string,
+    strArea: string,
+    strInstructions: string,
+    strYoutube: string,
+    strMeasure: string,
+    strIngredient: string,
+  [key: string]: any; 
 }
 
 export type category = {
@@ -9,6 +15,16 @@ export type category = {
     strCategoryThumb: string,
 }
 
+
+export type Screenprop = {
+ 
+    Home: undefined;
+    Welcome: undefined;
+    login: undefined,
+    CreateNewAccount: undefined,
+    Buy: {ingredients: string[]};
+    RecipeDetails: { idMeal: string; strMeal: string; strMealThumb: string };
+  };
 
 
 export type Mealprops = {
@@ -28,3 +44,5 @@ export  type CategoriesProps = {
     handleChangeCategory: (category: string) => void;
   };
   
+
+  //allah ye time q ni guzr raha ha ,,, allah ye 4 jaldi se baj jayeee... allah ek to mujhe samj ni ati ha k ma yaha pr kr

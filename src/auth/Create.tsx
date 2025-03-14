@@ -12,13 +12,18 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
 import {launchImageLibrary} from 'react-native-image-picker';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Screenprop } from '../types';
 
-export default function CreateNewAccount({navigation}) {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
-  const [isEye, setEye] = useState()
+
+  type props = NativeStackScreenProps<Screenprop, 'CreateNewAccount'>
+
+export default function CreateNewAccount({navigation}: props) {
+  const [fullName, setFullName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [isEye, setEye] = useState<boolean>(false)
 
   const handleSignUp = async () => {
     try {
@@ -46,14 +51,14 @@ export default function CreateNewAccount({navigation}) {
         },
       ]);
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
+      if ((error as any).code === 'auth/email-already-in-use') {
         Alert.alert('Error', 'Email already in use');
-      } else if (error.code === 'auth/invalid-email') {
+      } else if ((error as any).code === 'auth/invalid-email') {
         Alert.alert('Error', 'Invalid email format');
-      } else if (error.code === 'auth/weak-password') {
+      } else if ((error as any).code === 'auth/weak-password') {
         Alert.alert('Error', 'Password should be at least 6 characters');
       } else {
-        Alert.alert('Error', error.message);
+        Alert.alert('Error', (error as Error).message);
       }
     }
   };
@@ -65,7 +70,7 @@ export default function CreateNewAccount({navigation}) {
       } else if (response.errorMessage) {
         console.log('ImagePicker Error: ', response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
-        setProfileImage(response.assets[0].uri);
+        setProfileImage(response.assets[0].uri || null);
       }
     });
   };
