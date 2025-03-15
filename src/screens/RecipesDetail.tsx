@@ -233,8 +233,7 @@ export default function RecipeDetail({ route }: RecipeDetailProps) {
         onPress={() =>
           navigation.navigate('Buy', {
             ingredients: ingredientsIndexes(meal).map(
-              i => `${meal?.['strMeasure' + i]} 
-               ${meal?.['strIngredient' + i]}`,
+              i => ` ${meal?.['strIngredient' + i]}`,
             ),
           })
         }>

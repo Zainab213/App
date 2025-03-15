@@ -45,16 +45,17 @@ export default function Home() {
 
   const fetchUserData = () => {
     const user = auth().currentUser;
-    console.log("User Data:", user); 
     if (user) {
       setUserName(user.displayName || 'Guest');
       
       setUserImage(
         
-        user.photoURL ?? 'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg'
+        user.photoURL || 'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg'
       );
     }
   };
+
+  
 
   const handleChangeCategory = (category: string) => {
     setSearchQuery('');
@@ -96,15 +97,17 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 30}}
         className="gap-y-6 pt-2">
-        <View className="flex-row justify-between items-center mx-3 mb-2">
-          <Image  source={{ uri: userImage ?? 'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg' }}/>
+        <View className="flex-row justify-between items-center mx-3">
+          <Image source={{
+            uri: userImage ?? 'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg'}} style={{ width: 55, height: 56, borderRadius: 25 }} />
           <Ionicons name="notifications-outline" size={39} />
         </View>
 
+        
         {/* Greeting Message */}
         <View className="mx-4 gap-y-2 mb-7 mt-3">
           <Text className="text-2xl text-neutral-600">Hello, {userName}!</Text>
-          <Text className="font-semibolrd text-neutral-600 text-4xl">
+          <Text className="font-semibold text-neutral-600 text-4xl">
             Make your own food
           </Text>
           <Text className="font-semibold text-neutral-600 text-4xl">

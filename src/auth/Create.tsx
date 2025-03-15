@@ -14,9 +14,12 @@ import auth from '@react-native-firebase/auth';
 import {launchImageLibrary} from 'react-native-image-picker';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Screenprop } from '../types';
+import storage from '@react-native-firebase/storage'
 
 
   type props = NativeStackScreenProps<Screenprop, 'CreateNewAccount'>
+
+
 
 export default function CreateNewAccount({navigation}: props) {
   const [fullName, setFullName] = useState<string>('');
@@ -33,9 +36,14 @@ export default function CreateNewAccount({navigation}: props) {
       );
       const user = userCredential.user;
 
+      let imageUrl = profileImage
+if (profileImage){
+  imageUrl = await uploadImage(profileImage)
+}
+
       await user.updateProfile({
         displayName: fullName,
-        photoURL: profileImage || null,
+        photoURL: imageUrl || null,
       });
 
       Alert.alert('Success', 'Account created successfully!', [
@@ -74,6 +82,25 @@ export default function CreateNewAccount({navigation}: props) {
       }
     });
   };
+
+ 
+
+const uploadImage = async (uri: string) => {
+  if (!uri) return null;
+
+  const fileName = uri.substring(uri.lastIndexOf('/') + 1);
+  const reference = storage().ref(`/profileImages/${fileName}`);
+
+  try {
+    await reference.putFile(uri);
+    const downloadURL = await reference.getDownloadURL();
+    return downloadURL;
+  } catch (error) {
+    console.error('Image upload failed:', error);
+    return null;
+  }
+};
+
 
   return (
     <View className="bg-white flex-1">

@@ -35,14 +35,14 @@ const Login = ({ navigation }: prop) => {
     <View className="flex-1 bg-white">
  
       <View className="flex-1 justify-center px-8">
-        <Text className="text-5xl font-bold text-center text-amber-500">
+        <View className="justify-center items-center">
           <Image
             source={{
               uri: 'https://i.pinimg.com/originals/39/96/57/39965743eb30634afdc5906133e19740.png',
             }}
-            className="h-52 w-48"
+            className="h-52 w-52"
           />
-        </Text>
+        </View>
         <Text className="text-neutral-500 text-center text-lg mb-6">
           Sign in to your Chef Food account.
         </Text>

@@ -45,4 +45,3 @@ export  type CategoriesProps = {
   };
   
 
-  //allah ye time q ni guzr raha ha ,,, allah ye 4 jaldi se baj jayeee... allah ek to mujhe samj ni ati ha k ma yaha pr kr

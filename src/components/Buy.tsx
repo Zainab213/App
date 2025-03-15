@@ -81,11 +81,13 @@ export default function Order({ route }: orderProps) {
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (
                         <View className="flex-row justify-between items-center p-3 border-b border-gray-300">
+                            <View className='flex-1 flex-row items-center '>
                             <Text className="text-lg text-neutral-700">{item}</Text>
+                            </View>
                             <TouchableOpacity
                                 className="px-4 py-2 rounded-lg"
                                 style={{
-                                    backgroundColor: selectedIngredients.includes(index) ? '#fbbf24' : 'gray',
+                                    backgroundColor: selectedIngredients.includes(index) ? '#f59e0b' : 'gray',
                                 }}
                                 onPress={() => toggleSelection(index)}
                             >

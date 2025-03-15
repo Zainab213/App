@@ -8,20 +8,10 @@ import Login from '../auth/login';
 import CreateNewAccount from '../auth/Create';
 import Order from '../components/Buy';
 import RecipeDetail from '../screens/RecipesDetail';
+import { Screenprop } from '../types';
 
 
-export type RootStackParamList = {
- 
-  Home: undefined;
-  Welcome: undefined;
-  login: undefined,
-  CreateNewAccount: undefined,
-  Buy: {ingredients: string[]};
-  RecipeDetails: { idMeal: string; strMeal: string; strMealThumb: string };
-};
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
+const Stack = createNativeStackNavigator<Screenprop>();
 
 export default function AppNavigation() {
   return (
